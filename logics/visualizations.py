@@ -47,7 +47,7 @@ def plot_graph(df: pd.DataFrame, treatment_dates: List, count_of_interest: str):
     plt.show()
 
 
-def average_per_week(df: pd.DataFrame, count_of_interest: str):
+def average_per_week(df: pd.DataFrame, dates:List, count_of_interest: str):
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index(df['Date'], inplace=True)
 
