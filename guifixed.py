@@ -1,5 +1,5 @@
-from tkinter import Tk, Label, Button, filedialog
-from datetime import datetime
+from tkinter import Tk, Label, Button, filedialog, messagebox
+from errors import DateBeforeDataDates
 from tkcalendar import DateEntry
 import pandas as pd
 import fake_api
@@ -7,10 +7,9 @@ import fake_api
 file_selected = False
 
 
-
-def get_dates():
+def on_click():
     if not file_selected:
-        print("Please select a file first.")
+        messagebox.showinfo("Info", "Please select a file first.")
         return
 
     dates = []
@@ -20,17 +19,23 @@ def get_dates():
             translated_date = date.strftime("%Y/%m/%d")
             dates.append(translated_date)
         else:
-            print("Invalid date format. Please use the date picker to select a date.")
+            messagebox.showerror("Error", "Invalid date format. Please use the date picker to select a date.")
             return []
 
     # Verify the order of dates
     for i in range(len(dates) - 1):
         if dates[i] >= dates[i + 1]:
-            print("Dates are not in the correct order.")
+            messagebox.showerror("Error", "Dates are not in the correct order.")
             return []
-    fake_api.get_graph_by_dates(dates)
+    try:
+        fake_api.get_graph_by_dates(dates)
+    except DateBeforeDataDates:
+        messagebox.showerror("Error", "The provided dates are before the dates provided in the file")
+    except Exception as e:
+        messagebox.showerror("Error", "Something went wrong, please try again")
 
     return dates
+
 
 def open_file():
     global file_selected
@@ -43,11 +48,12 @@ def open_file():
             df = pd.read_excel(file_path)
 
         if 'StartDate' in df.columns:
-            print("File loaded successfully.")
+            messagebox.showinfo("Success", "File loaded successfully.")
             file_selected = True
             fake_api.memories_df = df
         else:
-            print("The file does not contain a 'StartDate' column.")
+            messagebox.showerror("Error", "The file does not contain a 'StartDate' column.")
+
 
 # Create the main window
 window = Tk()
@@ -78,7 +84,7 @@ for i in range(1, 6):
     entry.pack()
     date_entries.append(entry)
 
-get_dates_button = Button(window, text="Analyze", command=lambda: print("Dates:", get_dates()))
+get_dates_button = Button(window, text="Analyze", command=lambda: print("Dates:", on_click()))
 get_dates_button.pack()
 
 # Start the GUI event loop
