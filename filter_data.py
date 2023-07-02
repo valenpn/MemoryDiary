@@ -11,8 +11,8 @@ def get_filtered_pd(df: pd.DataFrame, cols_names: List) -> pd.DataFrame:
     return df[cols_names].copy()
 
 
-def run_filter_flow(path_to_file: str = "intrusion.xlsx") -> pd.DataFrame:
-    memories_df = pd.read_excel(path_to_file, na_values='', keep_default_na=False)
+def run_filter_flow(memories_df: pd.DataFrame) -> pd.DataFrame:
+    memories_df = memories_df.drop(0)
     max_ideas = max(memories_df["Amount"])
     new_column_names = [f"{i}_Content" for i in range(1, max_ideas + 1)]
     new_column_names.extend(["Amount", "StartDate"])

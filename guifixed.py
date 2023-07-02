@@ -2,8 +2,11 @@ from tkinter import Tk, Label, Button, filedialog
 from datetime import datetime
 from tkcalendar import DateEntry
 import pandas as pd
+import fake_api
 
 file_selected = False
+
+
 
 def get_dates():
     if not file_selected:
@@ -14,7 +17,7 @@ def get_dates():
     for entry in date_entries:
         date = entry.get_date()
         if date:
-            translated_date = date.strftime("%Y-%m-%d")
+            translated_date = date.strftime("%Y/%m/%d")
             dates.append(translated_date)
         else:
             print("Invalid date format. Please use the date picker to select a date.")
@@ -25,6 +28,7 @@ def get_dates():
         if dates[i] >= dates[i + 1]:
             print("Dates are not in the correct order.")
             return []
+    fake_api.get_graph_by_dates(dates)
 
     return dates
 
@@ -41,6 +45,7 @@ def open_file():
         if 'StartDate' in df.columns:
             print("File loaded successfully.")
             file_selected = True
+            fake_api.memories_df = df
         else:
             print("The file does not contain a 'StartDate' column.")
 
