@@ -1,9 +1,7 @@
 from typing import List
 import pandas as pd
 
-import filter_data
-import validators
-import visualizations
+from logics import filter_data, validators, visualizations
 
 memories_df: pd.DataFrame = None
 
