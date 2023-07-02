@@ -1,29 +1,25 @@
+from typing import List
+
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 import seaborn as sns
 import numpy as np
 
-#C:\Users\user\Documents\GitHub\MemoryDiary\Intrusions+Diary+-+Daily+summery_26+June+2023_15.17.xlsx
 
 file_name =r'139_Daily_Diary_Summary.xlsx'
 treatment_dates = r'dates139.xlsx'
 
-def plot_graph(file_name: Path, treatment_dates: Path, count_of_interest: str):
-    print(treatment_dates)
-    df = pd.read_excel(file_name)
+def plot_graph(df:pd.DataFrame, treatment_dates: List, count_of_interest: str):
     df = df.drop(df.index[0])
-    treatment_dates = pd.read_excel(treatment_dates)
-
-    from sklearn.linear_model import LinearRegression
-
     # Assuming you have imported necessary libraries and loaded the data frame (df)
-    colors = ['green' if date in treatment_dates.values else 'blue' for date in df['Date']]
+    colors = ['green' if date in treatment_dates else 'blue' for date in df['Date']]
 
     plt.bar(df['Date'], df[count_of_interest], color=colors)
     i=1
     for date, treatment in zip(df['Date'], df[count_of_interest]):
-        if date in treatment_dates.values:
+        if date in treatment_dates:
             plt.text(date, treatment, i, ha='center', va='bottom')
             i+=1
         
@@ -54,6 +50,6 @@ def plot_graph(file_name: Path, treatment_dates: Path, count_of_interest: str):
     # Display the plot
     plt.show()
 
-plot_graph(file_name, treatment_dates,'Count_Target')
-plot_graph(file_name, treatment_dates,'Count_Nontarget')
-plot_graph(file_name, treatment_dates,'Count_Total')
+# plot_graph(file_name, treatment_dates,'Count_Target')
+# plot_graph(file_name, treatment_dates,'Count_Nontarget')
+# plot_graph(file_name, treatment_dates,'Count_Total')

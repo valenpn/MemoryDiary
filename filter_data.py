@@ -11,25 +11,27 @@ def get_filtered_pd(df: pd.DataFrame, cols_names: List) -> pd.DataFrame:
     return df[cols_names].copy()
 
 
-memories_df = pd.read_excel("intrusion.xlsx", na_values='', keep_default_na=False)
-max_ideas = max(memories_df["Amount"])
-new_column_names = [f"{i}_Content" for i in range(1, max_ideas + 1)]
-new_column_names.extend(["Amount", "StartDate"])
+def run_filter_flow(path_to_file: str = "intrusion.xlsx") -> pd.DataFrame:
+    memories_df = pd.read_excel(path_to_file, na_values='', keep_default_na=False)
+    max_ideas = max(memories_df["Amount"])
+    new_column_names = [f"{i}_Content" for i in range(1, max_ideas + 1)]
+    new_column_names.extend(["Amount", "StartDate"])
 
-filtered_df = get_filtered_pd(memories_df, new_column_names)
+    filtered_df = get_filtered_pd(memories_df, new_column_names)
 
-new_df = pd.DataFrame()
+    new_df = pd.DataFrame()
 
-new_df['count_target'] = count_values(filtered_df, max_ideas, 1)
-new_df['count_nontarget'] = count_values(filtered_df, max_ideas, 2)
-new_df["count_total"] = filtered_df["Amount"]
-new_df["Date"] = pd.to_datetime(filtered_df["StartDate"]).dt.date
+    new_df['Count_Target'] = count_values(filtered_df, max_ideas, 1)
+    new_df['Count_Nontarget'] = count_values(filtered_df, max_ideas, 2)
+    new_df["Count_Total"] = filtered_df["Amount"]
+    new_df["Date"] = pd.to_datetime(filtered_df["StartDate"]).dt.date
 
-# Group by the 'Date' column and sum the values in each group
-grouped_mat = new_df.groupby('Date').agg({
-    'count_total': 'sum',
-    'count_target': 'sum',
-    'count_nontarget': 'sum'
-}).reset_index()
+    # Group by the 'Date' column and sum the values in each group
+    grouped_mat = new_df.groupby('Date').agg({
+        'Count_Total': 'sum',
+        'Count_Target': 'sum',
+        'Count_Nontarget': 'sum'
+    }).reset_index()
 
-grouped_mat.to_excel("memories_count.xlsx", index=False)
+    grouped_mat.to_excel("memories_count.xlsx", index=False)
+    return grouped_mat
