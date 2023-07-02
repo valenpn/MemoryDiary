@@ -1,5 +1,4 @@
 import pytest
-import pandas as pd
 from datetime import datetime
 from logics.validators import validate_range
 from errors import DateBeforeDataDates
