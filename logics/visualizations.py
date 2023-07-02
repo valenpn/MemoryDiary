@@ -8,9 +8,8 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 
 
-def plot_graph(df: pd.DataFrame, dates: List, count_of_interest: str):
+def plot_graph(df: pd.DataFrame, treatment_dates: List, count_of_interest: str):
     # Assuming you have imported necessary libraries and loaded the data frame (df)
-    treatment_dates = [datetime.strptime(date, '%Y/%m/%d').date() for date in dates]
     colors = ['green' if date in treatment_dates else 'blue' for date in df['Date']]
 
     plt.bar(df['Date'], df[count_of_interest], color=colors)
