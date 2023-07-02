@@ -44,5 +44,4 @@ htmlcov/
 config.ini
 secrets.yaml
 secret.key
-
-.gitignore
+tests/memories_count.xlsx
