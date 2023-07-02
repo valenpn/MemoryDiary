@@ -3,12 +3,12 @@ from typing import List
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
+from datetime import datetime
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
 
 def plot_graph(df: pd.DataFrame, treatment_dates: List, count_of_interest: str):
-    df = df.drop(df.index[0])
     # Assuming you have imported necessary libraries and loaded the data frame (df)
     colors = ['green' if date in treatment_dates else 'blue' for date in df['Date']]
 
@@ -48,8 +48,7 @@ def plot_graph(df: pd.DataFrame, treatment_dates: List, count_of_interest: str):
     plt.show()
 
 
-def average_per_week(df: pd.DataFrame, count_of_interest: str):
-    df = df.drop(df.index[0])
+def average_per_week(df: pd.DataFrame, dates:List, count_of_interest: str):
     df['Date'] = pd.to_datetime(df['Date'])
     df.set_index(df['Date'], inplace=True)
 

@@ -16,8 +16,7 @@ def on_click():
     for entry in date_entries:
         date = entry.get_date()
         if date:
-            translated_date = date.strftime("%Y/%m/%d")
-            dates.append(translated_date)
+            dates.append(date)
         else:
             messagebox.showerror("Error", "Invalid date format. Please use the date picker to select a date.")
             return []
