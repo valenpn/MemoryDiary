@@ -49,6 +49,13 @@ window = Tk()
 window.title("Inputs")
 window.geometry("400x300")  # Set the size of the window
 
+# Customize the appearance
+window.configure(bg="white")  # Set the background color
+
+# Define custom font
+font_label = ("Arial", 12, "bold")
+font_button = ("Arial", 10)
+
 select_file_label = Label(window, text="Select a data file:")
 select_file_label.pack()
 
