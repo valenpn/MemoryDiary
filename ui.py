@@ -31,6 +31,7 @@ def on_click():
     except DateBeforeDataDates:
         messagebox.showerror("Error", "The provided dates are before the dates provided in the file")
     except Exception as e:
+        print(e)
         messagebox.showerror("Error", "Something went wrong, please try again")
 
     return dates
