@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Union
 import pandas as pd
 import numpy as np
 
@@ -17,7 +17,6 @@ def remove_type_3(df: pd.DataFrame, max_ideas: int) -> pd.DataFrame:
             column_name = f"{i}{suffix}"
             if column_name in df.columns:
                 df.loc[mask, column_name] = np.nan
-
     return df
 
 
